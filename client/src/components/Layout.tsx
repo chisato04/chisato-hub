@@ -14,7 +14,6 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ currentTheme, onThemeChange }) => {
 
-  // THIS IS THE FIX: This hook now targets the #root div
   useEffect(() => {
     const root = document.getElementById('root');
     if (root) {

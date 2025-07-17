@@ -1,14 +1,14 @@
 // client/src/pages/ModpackDetails.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-// THE FIX: We no longer import the separate 'Modlist' type
+
 import type { Modpack } from '../types';
 import '../assets/css/modpack-details.css';
 
 const ModpackDetails: React.FC = () => {
   const { filename } = useParams<{ filename: string }>();
   const [pack, setPack] = useState<Modpack | null>(null);
-  // THE FIX: The separate 'modlist' state is removed.
+
   // const [modlist, setModlist] = useState<Modlist | null>(null);
   const [activeTab, setActiveTab] = useState('mod-list');
   const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +18,6 @@ const ModpackDetails: React.FC = () => {
     if (!filename) return;
     setIsLoading(true);
 
-    // THE FIX: We only need one API call now to get all pack data, including the modlist.
     fetch(`/api/modpacks/${filename}`)
       .then(res => {
         if (!res.ok) throw new Error('Modpack not found');
@@ -61,12 +60,12 @@ const ModpackDetails: React.FC = () => {
           
           {activeTab === 'mod-list' && (
             <div id="mod-list" className="tab-content active">
-              {/* THE FIX: We now check pack.modlist directly */}
+
               {pack.modlist && pack.modlist.length > 0 ? (
                 <div className="table-wrapper">
                   <table className="mod-list-table">
                     <thead><tr><th>Mod Name</th></tr></thead>
-                    {/* THE FIX: We map over pack.modlist and explicitly type the parameters */}
+
                     <tbody>{pack.modlist.map((mod: string, index: number) => <tr key={index}><td>{mod}</td></tr>)}</tbody>
                   </table>
                 </div>
