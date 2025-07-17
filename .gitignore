@@ -28,6 +28,7 @@ node_modules/
 /server/data/modpacks/
 /server/.minecraft-session.json
 /server/usercache.json.old
+metadata.json
 
 .DS_Store
 .DS_Store?

@@ -1224,7 +1224,7 @@
       "§RAY'S §F3D §6Rails§8§O§K.Zip",
       "ComplementaryUnbound R.Zip"
     ],
-    "java_args": "",
+    "java_args": "test",
     "notes": ""
   }
 }
