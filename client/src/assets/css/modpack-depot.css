@@ -1,0 +1,33 @@
+/* client/src/assets/css/modpack-depot.css */
+.container-with-sidebar{display:flex;gap:25px;align-items:flex-start}
+.sidebar-card,.content-card{background-color:var(--base);border:1px solid var(--border);border-radius:16px;padding:25px}
+.sidebar-card{flex:0 0 320px;position:sticky;top:110px} /* Adjusted top for sticky header */
+.content-card{flex:1}
+.search-container{position:relative}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--subtext-0)}
+#searchInput{width:100%;padding:12px 15px 12px 45px;border-radius:8px;border:1px solid var(--border);background-color:var(--bg-alt);color:var(--text);font-size:1rem;transition:all .2s ease}
+#searchInput:focus{outline:none;border-color:var(--sapphire);box-shadow:0 0 0 3px color-mix(in srgb,var(--sapphire) 25%,transparent)}
+.filter-group{margin-top:25px}
+.filter-group h2{font-size:.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:12px}
+.filter-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.filter-btn{background-color:var(--surface-0);border:1px solid var(--surface-1);color:var(--subtext-0);padding:5px 12px;border-radius:20px;font-size:.85rem;cursor:pointer;transition:all .2s ease}
+.filter-btn:hover{background-color:var(--surface-1);color:var(--text)}
+.filter-btn.active,.filter-btn:focus-visible{outline:none;border-color:var(--mauve);color:var(--text);background-color:var(--surface-1)}
+.grid-container{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:15px}
+.card{background-color:var(--bg-alt);border-radius:12px;padding:15px;border:1px solid var(--border);transition:all .2s ease;display:flex;position:relative;cursor:pointer}
+.card:hover{transform:translateY(-4px);background-color:var(--surface-0);border-color:var(--mauve)}
+.card-content{padding-right:40px}
+.card-content h3{font-size:1.05rem;font-weight:500;margin-bottom:10px;color:var(--lavender);transition:color .2s ease}
+.card:hover .card-content h3{color:var(--text)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.75rem;padding:3px 8px;border-radius:6px;font-weight:500}
+.tag-loader{background-color:var(--green);color:var(--base)}
+.tag-version{background-color:var(--mauve);color:var(--base)}
+.card-download-btn{position:absolute;top:5px;right:5px;flex-shrink:0;padding:10px;border-radius:10px;transition:background-color .2s ease;display:flex;align-items:center;justify-content:center;color:var(--subtext-0);text-decoration:none}
+.card-download-btn svg{width:20px;height:20px;transition:color .2s ease;display:block}
+.card:hover .card-download-btn svg{color:var(--blue)}
+.card-download-btn:hover{background-color:var(--surface-1)}
+@media (max-width: 900px) {
+    .container-with-sidebar{flex-direction:column;gap:20px}
+    .sidebar-card{position:static;flex-basis:auto;width:100%}
+}

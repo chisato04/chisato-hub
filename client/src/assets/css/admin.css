@@ -1,0 +1,42 @@
+body.admin-page-active{background-color:var(--crust,var(--bg))}
+.admin-panel{max-width:1400px;margin:40px auto;padding:0 20px}
+.admin-panel h1{font-size:2.5rem;margin-bottom:25px;color:var(--text);padding-bottom:15px;border-bottom:1px solid var(--border)}
+.admin-card{background-color:var(--base);border:1px solid var(--border);border-radius:16px;padding:25px;margin-bottom:30px}
+.admin-card-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--surface-0);padding-bottom:15px;margin-bottom:20px}
+.admin-card-header h2{font-size:1.2rem;color:var(--subtext-0);border-bottom:none;padding-bottom:0;margin-bottom:0}
+.upload-new-btn{background-color:var(--green);color:var(--base);border:none;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;transition:all .2s ease}
+.upload-new-btn:hover{background-color:var(--yellow);transform:scale(1.02)}
+.modpack-list-container{display:flex;flex-direction:column;gap:15px}
+.modpack-manage-card{display:flex;flex-direction:column;background-color:var(--mantle,var(--bg-alt));border:1px solid var(--surface-0);border-radius:12px;transition:all .2s ease}
+.modpack-main-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr auto;gap:15px;padding:15px 20px;align-items:center}
+.modpack-name-display{font-size:1.1rem;font-weight:500;color:var(--lavender)}
+.modpack-details-row{padding:20px;border-top:1px solid var(--surface-0);display:grid;grid-template-columns:1fr 1fr;gap:20px;background-color:var(--base);border-radius:0 0 12px 12px}
+.detail-group{display:flex;flex-direction:column;gap:8px}
+.detail-group label{font-size:.8rem;font-weight:700;text-transform:uppercase;color:var(--teal);letter-spacing:1px}
+.admin-select,.admin-textarea{width:100%;padding:10px;background-color:var(--surface-0);border:1px solid var(--surface-1);color:var(--text);border-radius:8px;font-size:.9rem;transition:all .2s ease;font-family:inherit}
+.admin-textarea{resize:vertical;min-height:80px}
+.admin-select:focus,.admin-textarea:focus{outline:none;border-color:var(--sapphire);box-shadow:0 0 0 2px color-mix(in srgb,var(--sapphire) 25%,transparent)}
+.actions-container{display:flex;align-items:center;gap:10px}
+.action-btn{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;color:var(--subtext-0);width:38px;height:38px;cursor:pointer;transition:all .2s ease;border-radius:50%}
+.action-btn.details-toggle{font-size:1.5rem;line-height:1}
+.action-btn:hover{background-color:var(--surface-1)}
+.action-btn.delete-btn:hover{color:var(--red)}
+.action-btn.details-toggle:hover{color:var(--sky)}
+.action-btn svg{width:18px;height:18px}
+.admin-drop-zone{display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;border:2px dashed var(--surface-1);border-radius:8px;background-color:var(--surface-0);color:var(--subtext-0);font-weight:500;cursor:pointer;transition:all .2s ease;min-height:44px}
+.admin-drop-zone:hover{border-color:var(--mauve);color:var(--mauve)}
+.admin-file-display{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%}
+.admin-file-display .filename{font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-file-display .clear-btn{background:var(--surface-1);color:var(--text);border:none;border-radius:50%;width:22px;height:22px;line-height:1;cursor:pointer;flex-shrink:0}
+.admin-file-display .clear-btn:hover{background:var(--red);color:var(--base)}
+.submit-btn-container{display:flex;justify-content:flex-end;margin-top:25px}
+.submit-btn{background:var(--green);color:var(--base);border:none;padding:12px 24px;border-radius:8px;font-weight:700;cursor:pointer;font-size:1rem;transition:all .2s ease;box-shadow:0 4px 15px color-mix(in srgb,var(--green) 20%,transparent)}
+.submit-btn:hover:not(:disabled){background-color:var(--yellow);transform:translateY(-2px);box-shadow:0 6px 20px color-mix(in srgb,var(--yellow) 25%,transparent)}
+.submit-btn:disabled{background-color:var(--surface-1);color:var(--subtext-0);cursor:not-allowed;box-shadow:none}
+.admin-message{text-align:center;font-weight:500;padding:15px;border-radius:8px;margin-bottom:25px}
+.admin-message.success{background-color:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green)}
+.admin-message.error{background-color:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)}
+.is-hidden{display:none!important}
+.admin-placeholder{padding:40px;text-align:center;color:var(--subtext-0);font-style:italic}
+.modpack-info-display{padding:10px;background-color:var(--surface-0);border:1px solid var(--surface-1);color:var(--subtext-1);border-radius:8px;font-size:.9rem;white-space:nowrap;text-align:center}
+.modpack-info-display.modlist-count{color:var(--sky)}
