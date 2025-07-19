@@ -1,10 +1,8 @@
 // client/src/components/Footer.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import type { Theme } from '../App'; // Import the Theme type
- // Import the Theme type
+import type { Theme } from '../App'; 
 
-// Define the props that Footer will receive
 interface FooterProps {
   currentTheme: Theme;
   onThemeChange: (theme: Theme) => void;
@@ -13,7 +11,6 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ currentTheme, onThemeChange }) => {
   
   const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    // Call the function passed down from App.tsx
     onThemeChange(event.target.value as Theme);
   };
 
@@ -31,7 +28,7 @@ const Footer: React.FC<FooterProps> = ({ currentTheme, onThemeChange }) => {
           <div className="footer-column">
             <h3>Social</h3>
             <ul>
-              <li><a href="https://github.com/chisato04/mrpack-depot" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li><a href="https://github.com/chisato04/chisato-hub" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
           </div>
           <div className="footer-column">
@@ -40,7 +37,6 @@ const Footer: React.FC<FooterProps> = ({ currentTheme, onThemeChange }) => {
             <p className="copyright">© {new Date().getFullYear()}, chisato04. Licensed under MIT.</p>
             <div className="theme-selector">
               <label htmlFor="theme-switcher-select">Theme</label>
-              {/* The select is now controlled by props */}
               <select className="theme-switcher" id="theme-switcher-select" value={currentTheme} onChange={handleThemeChange}>
                 <option value="mocha">Mocha</option>
                 <option value="macchiato">Macchiato</option>
