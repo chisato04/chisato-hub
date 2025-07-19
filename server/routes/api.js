@@ -6,10 +6,11 @@ const path = require('path');
 const util = require('minecraft-server-util');
 const multer = require('multer');
 const JSZip = require('jszip');
+const si = require('systeminformation');
 
 const router = express.Router();
 
-// --- Configuration ---
+// Configuration 
 const dataPath = path.join(__dirname, '..', 'data');
 const metadataFilePath = path.join(dataPath, 'metadata.json');
 const modpacksPath = path.join(dataPath, 'modpacks');
@@ -17,18 +18,15 @@ const MINECRAFT_SERVER_PATH = 'D:/DONT_DELETE/minecraft-servers/1.21.1_server';
 const userCachePath = path.join(MINECRAFT_SERVER_PATH, 'usercache.json');
 const playerStatsPath = path.join(MINECRAFT_SERVER_PATH, 'world/stats');
 
-// --- Multer Setup ---
+// Multer Setup 
 const upload = multer({ storage: multer.memoryStorage() });
 
-// --- Helper Functions ---
+// Helper Functions 
 const readMetadata = async () => { return JSON.parse(await fs.readFile(metadataFilePath, 'utf-8')); };
 const writeMetadata = async (data) => { await fs.writeFile(metadataFilePath, JSON.stringify(data, null, 2), 'utf-8'); };
 
-// =================================================================
-// === PUBLIC API ENDPOINTS ========================================
-// =================================================================
-
-// --- Modpack Routes ---
+// === PUBLIC API ENDPOINTS ===
+// Modpack Routes
 router.get('/modpacks', async (req, res) => {
   try {
     const metadataObject = await readMetadata();
@@ -57,7 +55,7 @@ router.get('/modpacks/:filename', async (req, res) => {
   } catch (error) { res.status(500).json({ message: 'Failed to retrieve modpack data' }); }
 });
 
-// --- Player Gallery & Stats Routes ---
+// Player Gallery & Stats Routes 
 router.get('/players', async (req, res) => {
   try {
     const userCacheData = await fs.readFile(userCachePath, 'utf-8');
@@ -96,27 +94,108 @@ router.get('/player-stats/:uuid', async (req, res) => {
   }
 });
 
-// --- Server Status Route ---
-let cachedStatus = null; let lastFetchTime = 0;
-const CACHE_DURATION = 30 * 1000;
+// Server Status Route 
+let cachedStatus = null;
+let lastFetchTime = 0;
+const CACHE_DURATION = 10 * 1000;
+
 router.get('/server-status', async (req, res) => {
   const now = Date.now();
   if (cachedStatus && cachedStatus.online && (now - lastFetchTime < CACHE_DURATION)) {
     return res.json(cachedStatus);
   }
+
   try {
-    const status = await util.status('172.24.215.119', 25565, { timeout: 5000 });
-    cachedStatus = { online: true, ...status };
+    const [mcStatus, sysInfo] = await Promise.all([
+      util.status('172.24.215.119', 25565, { timeout: 5000 }),
+      si.get({
+        osInfo: 'distro, release, hostname',
+        system: 'model, manufacturer',
+        cpu: 'manufacturer, brand, speed, cores',
+        mem: 'total, used',
+      })
+    ]);
+
+    const successfulStatus = {
+      online: true,
+      ...mcStatus,
+      system: {
+        hostname: sysInfo.osInfo.hostname,
+        product: `${sysInfo.system.manufacturer} ${sysInfo.system.model}`,
+        os: `${sysInfo.osInfo.distro} ${sysInfo.osInfo.release}`,
+        cpu: `${sysInfo.cpu.manufacturer} ${sysInfo.cpu.brand} @ ${sysInfo.cpu.speed}GHz`,
+        cores: sysInfo.cpu.cores,
+        memory: {
+          total: sysInfo.mem.total,
+          used: sysInfo.mem.used
+        },
+        uptime: si.time().uptime,
+      }
+    };
+    
+    cachedStatus = successfulStatus;
     lastFetchTime = now;
-    res.json(cachedStatus);
+    res.json(successfulStatus);
+
   } catch (error) {
+    console.error(`Ping failed: ${error.message}`);
     res.json({ online: false });
   }
 });
 
-// =================================================================
-// === ADMIN API ENDPOINTS =========================================
-// =================================================================
+
+router.get('/leaderboard', async (req, res) => {
+  try {
+    const userCacheData = await fs.readFile(userCachePath, 'utf-8');
+    const userCache = JSON.parse(userCacheData);
+    if (!Array.isArray(userCache)) throw new Error('usercache.json is malformed.');
+
+    const allPlayerStats = [];
+
+    // Loop through all known players and fetch their individual stats
+    for (const player of userCache) {
+      const statFilePath = path.join(playerStatsPath, `${player.uuid}.json`);
+      try {
+        const statFileContent = await fs.readFile(statFilePath, 'utf-8');
+        const stats = JSON.parse(statFileContent);
+        allPlayerStats.push({
+          name: player.name,
+          uuid: player.uuid,
+          stats: stats.stats['minecraft:custom'] || {},
+        });
+      } catch (error) {
+        // It's normal for a player to not have a stats file yet, so we just skip them.
+        if (error.code !== 'ENOENT') {
+          console.error(`Could not process stats for ${player.name}: ${error.message}`);
+        }
+      }
+    }
+
+    const leaderboards = {
+      playTime: [...allPlayerStats]
+        .sort((a, b) => (b.stats['minecraft:play_time'] || 0) - (a.stats['minecraft:play_time'] || 0))
+        .slice(0, 5) // Get Top 5
+        .map(p => ({ name: p.name, value: Math.floor((p.stats['minecraft:play_time'] || 0) / 20 / 3600) })), // in hours
+
+      playerKills: [...allPlayerStats]
+        .sort((a, b) => (b.stats['minecraft:player_kills'] || 0) - (a.stats['minecraft:player_kills'] || 0))
+        .slice(0, 5)
+        .map(p => ({ name: p.name, value: p.stats['minecraft:player_kills'] || 0 })),
+
+      deaths: [...allPlayerStats]
+        .sort((a, b) => (b.stats['minecraft:deaths'] || 0) - (a.stats['minecraft:deaths'] || 0))
+        .slice(0, 5)
+        .map(p => ({ name: p.name, value: p.stats['minecraft:deaths'] || 0 })),
+    };
+
+    res.json(leaderboards);
+
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to generate leaderboards.' });
+  }
+});
+
+// === ADMIN API ENDPOINTS ===
 
 router.post('/modpacks', upload.single('modpackFile'), async (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'No modpack file uploaded.' });
@@ -178,5 +257,7 @@ router.delete('/modpacks/:filename', async (req, res) => {
     res.json({ message: 'Modpack deleted successfully' });
   } catch (error) { res.status(500).json({ message: 'Failed to delete modpack' }); }
 });
+
+
 
 module.exports = router;

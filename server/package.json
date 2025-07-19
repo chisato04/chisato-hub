@@ -17,6 +17,7 @@
     "jszip": "^3.10.1",
     "minecraft-server-util": "^5.4.4",
     "multer": "^2.0.1",
+    "systeminformation": "^5.27.7",
     "tmp": "^0.2.3",
     "ws": "^8.18.3"
   }
