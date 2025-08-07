@@ -14,7 +14,7 @@ const router = express.Router();
 const dataPath = path.join(__dirname, '..', 'data');
 const metadataFilePath = path.join(dataPath, 'metadata.json');
 const modpacksPath = path.join(dataPath, 'modpacks');
-const MINECRAFT_SERVER_PATH = 'D:/DONT_DELETE/minecraft-servers/1.21.1_server'; 
+const MINECRAFT_SERVER_PATH = 'C:/Users/elmal/Documents/1.21.1_august_server'; 
 const userCachePath = path.join(MINECRAFT_SERVER_PATH, 'usercache.json');
 const playerStatsPath = path.join(MINECRAFT_SERVER_PATH, 'world/stats');
 
@@ -98,29 +98,8 @@ router.get('/player-stats/:uuid', async (req, res) => {
 
 let cachedStatus = null;
 let lastFetchTime = 0;
-router.get('/server-status', async (req, res) => {
-  const now = Date.now();
-  if (cachedStatus && cachedStatus.online && (now - lastFetchTime < 10000)) {
-    return res.json(cachedStatus);
-  }
-  try {
-    const [mcStatus, sysInfo] = await Promise.all([
-      util.status('172.24.215.119', 25565, { timeout: 5000 }),
-      si.get({ osInfo: 'distro, release, hostname', system: 'model, manufacturer', cpu: 'manufacturer, brand, speed, cores', mem: 'total, used' })
-    ]);
-    cachedStatus = {
-      online: true, ...mcStatus,
-      system: {
-        hostname: sysInfo.osInfo.hostname, product: `${sysInfo.system.manufacturer} ${sysInfo.system.model}`,
-        os: `${sysInfo.osInfo.distro} ${sysInfo.osInfo.release}`, cpu: `${sysInfo.cpu.manufacturer} ${sysInfo.cpu.brand} @ ${sysInfo.cpu.speed}GHz`,
-        cores: sysInfo.cpu.cores, memory: { total: sysInfo.mem.total, used: sysInfo.mem.used }, uptime: si.time().uptime
-      }
-    };
-    lastFetchTime = now;
-    res.json(cachedStatus);
-  } catch (error) {
-    res.json({ online: false });
-  }
+router.get('/server-status', (req, res) => {
+  res.json(req.liveStatus);
 });
 
 router.get('/leaderboard', async (req, res) => {

@@ -64,10 +64,35 @@
 .dashboard-widget h3 { font-size: 1.1rem; color: var(--subtext-0); margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 1px solid var(--surface-0); }
 
 /* System Info Widget */
-.system-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 25px; }
-.info-item { display: flex; flex-direction: column; }
-.info-item .label { font-size: 0.8rem; color: var(--subtext-0); margin-bottom: 4px; }
-.info-item .value { font-size: 0.95rem; font-weight: 500; color: var(--text); }
+.system-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.info-item.chart {
+  background-color: var(--mantle, var(--bg-alt));
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.chart-header .label {
+  font-size: 0.9rem;
+  color: var(--subtext-0);
+}
+
+.chart-header .value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
 
 /* Player List Widget */
 .player-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; flex: 1; }
@@ -79,10 +104,10 @@
 /* Leaderboards Widget */
 .leaderboard-container { display: flex; flex-direction: column; gap: 20px; }
 .leaderboard { background-color: var(--surface-0); padding: 15px; border-radius: 8px; }
-.leaderboard h4 { margin: 0 0 10px 0; font-size: 0.9rem; color: var(--sky); font-weight: 500; }
+.leaderboard h4 { margin: 0 0 10px 0; font-size: 0.9rem; color: var(--red); font-weight: 500; }
 .leaderboard ol { list-style: none; padding-left: 0; margin: 0; counter-reset: leaderboard-counter; }
 .leaderboard li { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; color: var(--subtext-1); font-size: 0.9rem; }
-.leaderboard li::before { counter-increment: leaderboard-counter; content: counter(leaderboard-counter); font-weight: 700; color: var(--teal); margin-right: 15px; min-width: 15px; text-align: right; }
+.leaderboard li::before { counter-increment: leaderboard-counter; content: counter(leaderboard-counter); font-weight: 700; color: var(--red); margin-right: 15px; min-width: 15px; text-align: right; }
 .leaderboard li strong { font-weight: 500; }
 
 /* Loading and Offline States */
@@ -93,4 +118,26 @@
 
 @media (max-width: 900px) {
   .dashboard-body { grid-template-columns: 1fr; }
+}
+
+/* Uptime */
+.uptime-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--mantle, var(--bg-alt));
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-top: 20px; /* Space between charts and uptime */
+}
+.uptime-card .label {
+  font-size: 0.9rem;
+  color: var(--subtext-0);
+  font-weight: 500;
+}
+.uptime-card .value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  font-family: monospace;
 }
