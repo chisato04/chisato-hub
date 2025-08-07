@@ -71,7 +71,7 @@ const Portal: React.FC = () => {
           <a href="https://prismlauncher.org/" target="_blank" rel="noopener noreferrer" className="portal-card secondary-card launcher">
             <div className="portal-card-content"><h2>Prism Launcher</h2><span>Powerful Open Source Launcher</span></div>
           </a>
-          <a href="https://github.com/chisato04/mrpack-depot" target="_blank" rel="noopener noreferrer" className="portal-card secondary-card github">
+          <a href="https://github.com/chisato04/chisato-hub" target="_blank" rel="noopener noreferrer" className="portal-card secondary-card github">
             <div className="portal-card-content"><h2>GitHub Repo</h2><span>View Source Code</span></div>
           </a>
         </div>
