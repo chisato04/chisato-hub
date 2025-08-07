@@ -147,7 +147,7 @@ useEffect(() => {
                 </div>
               ) : playerStats ? (
                 <ul className="stats-list">
-                  <li><span>Play Time</span> <strong>{playerStats.play_time_hours} hours</strong></li>
+                  <li><span>Play Time</span> <strong>{playerStats.play_time_hours} hour/s</strong></li>
                   <li><span>Deaths</span> <strong>{playerStats.deaths}</strong></li>
                   <li><span>Player Kills</span> <strong>{playerStats.player_kills}</strong></li>
                   {playerStats.top_mob_kills.length > 0 && (

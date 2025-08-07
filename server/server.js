@@ -17,7 +17,7 @@ const HISTORY_LENGTH = 30; // Keep the last 30 data points
 const pollServerStatus = async () => {
   try {
     const [mcStatus, cpuLoad, mem] = await Promise.all([
-      util.status('mc.jaminlim.shop', 60524, { timeout: 5000 }),
+      util.status('join.jaminlim.shop', 60524, { timeout: 5000 }),
       si.currentLoad(),
       si.mem(),
     ]);
