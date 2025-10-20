@@ -14,7 +14,7 @@ const router = express.Router();
 const dataPath = path.join(__dirname, '..', 'data');
 const metadataFilePath = path.join(dataPath, 'metadata.json');
 const modpacksPath = path.join(dataPath, 'modpacks');
-const MINECRAFT_SERVER_PATH = 'C:/Users/elmal/Documents/1.21.1_august_server'; 
+const MINECRAFT_SERVER_PATH = '/home/chisato/Documents/1.21.1_October_LTS'; 
 const userCachePath = path.join(MINECRAFT_SERVER_PATH, 'usercache.json');
 const playerStatsPath = path.join(MINECRAFT_SERVER_PATH, 'world/stats');
 
