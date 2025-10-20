@@ -17,7 +17,7 @@ const HISTORY_LENGTH = 30; // Keep the last 30 data points
 const pollServerStatus = async () => {
   try {
     const [mcStatus, cpuLoad, mem] = await Promise.all([
-      util.status('join.jaminlim.shop', 60524, { timeout: 5000 }),
+      util.status('join.chisato04.com', 60524, { timeout: 5000 }),
       si.currentLoad(),
       si.mem(),
     ]);
@@ -102,7 +102,7 @@ const startServer = async () => {
   // We call the function AFTER it has been defined.
   await initializeDataDirectories();
   
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0',() => {
     console.log(`Express server is listening on http://localhost:${PORT}`);
     // Start the background polling AFTER the server starts
     setInterval(pollServerStatus, 5000); // Poll every 5 seconds
