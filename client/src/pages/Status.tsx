@@ -101,7 +101,7 @@ const Status: React.FC = () => {
           <div className="dashboard-body">
             <main className="dashboard-main">
               <div className="dashboard-widget">
-                <h3>System Performance</h3>
+                <h3>Server Performance</h3>
                 <div className="system-info-grid">
                   <div className="info-item chart">
                     <div className="chart-header"><span className="label">CPU Usage</span><span className="value">{status.system.cpuUsage.toFixed(1)}%</span></div>
