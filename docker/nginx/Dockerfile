@@ -1,3 +1,5 @@
+# docker/nginx/Dockerfile
+
 # --- Stage 1: Build the React Frontend ---
 FROM node:20-alpine AS builder
 

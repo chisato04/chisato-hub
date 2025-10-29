@@ -1,29 +1,20 @@
 services:
-  # The Backend Node.js Service
   backend:
     build:
-      context: ../server
+      context: .
+      dockerfile: backend/Dockerfile
     restart: unless-stopped
     environment:
-      # This passes the path *inside the container* to the Node app
       - MINECRAFT_SERVER_PATH=/minecraft
     volumes:
-      # This is the magic part:
-      # It mounts the user-defined path from the host machine...
-      # ...to the /minecraft directory inside this container.
-      - ${MINECRAFT_SERVER_PATH}:/minecraft:ro # 'ro' means read-only, which is safer
+      - ${MINECRAFT_SERVER_PATH}:/minecraft:ro
 
-  # The Nginx Web Server and Frontend Service
   nginx:
     build:
-      # The context is the root directory, so the Dockerfile can access both /nginx and /client
       context: ..
       dockerfile: nginx/Dockerfile
     restart: unless-stopped
     ports:
-      # Maps the user-defined port (defaulting to 8083) on the host...
-      # ...to port 80 inside the container.
       - "8083:80"
     depends_on:
-      # Tells Nginx to wait for the backend to be healthy before starting
       - backend
